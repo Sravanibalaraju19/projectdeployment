@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% extends 'Navbar/projectnavbar.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body, html {
+            height: 100%;
+        }
+        .container {
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container .form-outline {
+            margin-bottom: 20px;
+        }
+        .container .form-control {
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .container .form-control:focus {
+            border-color: #74ebd5;
+            outline: none;
+            box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+        }
+        .container .btn {
+            padding: 12px 25px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .container .btn-primary {
+            background: linear-gradient(45deg, #4CAF50, #00bfff);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .container .btn-primary:hover {
+            background: linear-gradient(45deg, #00bfff, #4CAF50);
+        }
+        .container .forgot-password {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+        .container .forgot-password:hover {
+            color: #333;
+        }
+        .logout-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #f44336;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+    {% block body %}
+    <div class="container d-flex justify-content-center align-items-center">
+        <form method="POST" action="{% url 'UserLoginLogic' %}" class="w-100" style="max-width: 400px;">
+            {% csrf_token %}
+
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required />
+            </div>
+
+            <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="remember_me" />
+                        <label class="form-check-label" for="remember_me"> Remember me </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+
+            <a href="#" class="forgot-password">Forgot password?</a>
+
+            <div class="text-center mt-4">
+                <p>Not a member? <a href="{% url 'UserRegisterPageCall' %}">Register</a></p>
+            </div>
+
+            <!-- Logout button (visible when the user is authenticated) -->
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="btn btn-danger logout-btn">Logout</a>
+            {% endif %}
+        </form>
+    </div>
+    {% endblock %}
+
+</body>
+</html>
